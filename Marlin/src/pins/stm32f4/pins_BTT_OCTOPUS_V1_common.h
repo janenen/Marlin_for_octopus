@@ -424,16 +424,21 @@
 // LCDs and Controllers
 #if HAS_DWIN_E3V2 || IS_DWIN_MARLINUI
   /**
-   *        ------                ------                ------
-   * (ENT) | 1  2 | (BEEP)       |10  9 |              |10  9 |
-   *  (RX) | 3  4 |         (RX) | 8  7 | (TX)      RX | 8  7 | TX
-   *  (TX)   5  6 |        (ENT)   6  5 | (BEEP)   ENT | 6  5 | BEEP
-   *   (B) | 7  8 | (A)      (B) | 4  3 | (A)        B | 4  3 | A
-   *   GND | 9 10 | (VCC)    GND | 2  1 | VCC      GND | 2  1 | VCC
-   *        ------                ------                ------
-   *         !EXP1!                  DWIN               DWIN (plug)
-   *
-   * All pins are labeled as printed on DWIN PCB. Connect TX-TX, A-A and so on.
+   * ----------------------------------------------------------------|----------------------------------------------------------------
+   * ----------------------- BTT OCTOPUS V1.x -----------------------|----------------------------- DWIN -----------------------------
+   *              ------                    ------            |  Connection |           ------                ------
+   * (BEEP, PE8) | 1  2 | (PE7,A)     (5V) | 1  2 |           |  TX2 | DIN  |          |10  9 |              |10  9 |
+   *   (ENT,PE9) | 3  4 | (PE10,B)   (GND) | 3  4 |           |  RX2 | DOUT |    (DIN) | 8  7 | (DOUT)   DIN | 8  7 | DOUT
+   *               5  6 |                  | 5  6 |           |    A | A    |    (ENT) | 6  5 | (BEEP)   ENT | 6  5 | BEEP
+   *             | 7  8 |                  | 7  8 |           |    B | B    |      (B) | 4  3 | (A)        B | 4  3 | A
+   *             | 9 10 |       (RX2, PD6) | 9 10 | (PD5,TX2) | BEEP | BEEP |      GND | 2  1 | VCC      GND | 2  1 | VCC
+   *              ------                    ------            |  ENT | ENT  |           ------                ------
+   *               EXP1                      RasPi            |  5V  | VCC  |            DWIN               DWIN (plug)
+   * ---------------------------------------------------------------------------------------------------------------------------------
+   * Copy the following lines to Configuration.h:
+   * #define LCD_SERIAL_PORT 2 //use Serial 2 on Raspberry Pi connector
+   * //define LCD_SERIAL_PORT 3 //use Serial 3 on TFT connector
+   * #define NO_CONTROLLER_CUSTOM_WIRING_WARNING
    */
 
   #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
