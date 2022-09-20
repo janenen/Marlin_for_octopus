@@ -422,8 +422,30 @@
 
 //
 // LCDs and Controllers
-//
-#if IS_TFTGLCD_PANEL
+#if HAS_DWIN_E3V2 || IS_DWIN_MARLINUI
+  /**
+   *        ------                ------                ------
+   * (ENT) | 1  2 | (BEEP)       |10  9 |              |10  9 |
+   *  (RX) | 3  4 |         (RX) | 8  7 | (TX)      RX | 8  7 | TX
+   *  (TX)   5  6 |        (ENT)   6  5 | (BEEP)   ENT | 6  5 | BEEP
+   *   (B) | 7  8 | (A)      (B) | 4  3 | (A)        B | 4  3 | A
+   *   GND | 9 10 | (VCC)    GND | 2  1 | VCC      GND | 2  1 | VCC
+   *        ------                ------                ------
+   *         !EXP1!                  DWIN               DWIN (plug)
+   *
+   * All pins are labeled as printed on DWIN PCB. Connect TX-TX, A-A and so on.
+   */
+
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! DWIN_CREALITY_LCD requires a custom cable, see diagram above this line. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
+
+  #define BEEPER_PIN                 PE8
+  #define BTN_EN1                    PE7
+  #define BTN_EN2                    PE10
+  #define BTN_ENC                    PE9
+
+#elif IS_TFTGLCD_PANEL
 
   #if ENABLED(TFTGLCD_PANEL_SPI)
     #define TFTGLCD_CS               EXP2_03_PIN
