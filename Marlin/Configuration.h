@@ -99,7 +99,7 @@
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
 #define SERIAL_PORT -1//jan
-
+//USB-COM-port oder otg
 
 /**
  * Serial Port Baud Rate
@@ -112,7 +112,7 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 250000
+#define BAUDRATE 115200
 
 #define BAUD_RATE_GCODE     // Enable G-code M575 to set the baud rate
 
@@ -132,7 +132,7 @@
 //#define SERIAL_PORT_3 1
 //#define BAUDRATE_3 250000   // :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000] Enable to override BAUDRATE
 
-#define LCD_SERIAL_PORT 1
+#define LCD_SERIAL_PORT 2
 #define NO_CONTROLLER_CUSTOM_WIRING_WARNING
 
 // Enable the Bluetooth serial interface on AT90USB devices
@@ -3274,15 +3274,15 @@
  */
 
 // LED Type. Enable only one of the following two options:
-//#define RGB_LED
+#define RGB_LED
 //#define RGBW_LED
 
 #if EITHER(RGB_LED, RGBW_LED)
-  //#define RGB_LED_R_PIN 34
-  //#define RGB_LED_G_PIN 43
-  //#define RGB_LED_B_PIN 35
-  //#define RGB_LED_W_PIN -1
-  //#define RGB_STARTUP_TEST              // For PWM pins, fade between all colors
+  #define RGB_LED_R_PIN PE13
+  #define RGB_LED_G_PIN PE14
+  #define RGB_LED_B_PIN PE15
+  #define RGB_LED_W_PIN -1
+  #define RGB_STARTUP_TEST              // For PWM pins, fade between all colors
   #if ENABLED(RGB_STARTUP_TEST)
     #define RGB_STARTUP_TEST_INNER_MS 10  // (ms) Reduce or increase fading speed
   #endif
