@@ -132,7 +132,7 @@
 //#define SERIAL_PORT_3 1
 //#define BAUDRATE_3 250000   // :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000] Enable to override BAUDRATE
 
-#define LCD_SERIAL_PORT 2
+#define LCD_SERIAL_PORT 1
 #define NO_CONTROLLER_CUSTOM_WIRING_WARNING
 
 // Enable the Bluetooth serial interface on AT90USB devices
