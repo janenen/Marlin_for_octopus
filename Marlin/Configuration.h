@@ -60,7 +60,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(Jan ,Dual Z-axis)" // Who made the changes.//jan
+#define STRING_CONFIG_H_AUTHOR "(Jan ,I[DT]EX)" // Who made the changes.//jan
 //#define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -165,7 +165,7 @@
 #define X_DRIVER_TYPE  TMC2209
 #define Y_DRIVER_TYPE  TMC2209
 #define Z_DRIVER_TYPE  TMC2209
-//#define X2_DRIVER_TYPE A4988//jandual
+#define X2_DRIVER_TYPE TMC2209//jandual
 //#define Y2_DRIVER_TYPE A4988
 #define Z2_DRIVER_TYPE TMC2209
 //#define Z3_DRIVER_TYPE A4988
@@ -177,8 +177,8 @@
 //#define V_DRIVER_TYPE  A4988
 //#define W_DRIVER_TYPE  A4988
 #define E0_DRIVER_TYPE TMC2209
-//#define E1_DRIVER_TYPE A4988//jandual
-//#define E2_DRIVER_TYPE A4988
+#define E1_DRIVER_TYPE TMC2100//jandual
+#define E2_DRIVER_TYPE TMC2100//extruder 1 and 2 for x2_carriage
 //#define E3_DRIVER_TYPE A4988
 //#define E4_DRIVER_TYPE A4988
 //#define E5_DRIVER_TYPE A4988
@@ -231,7 +231,7 @@
 
 // This defines the number of extruders
 // :[0, 1, 2, 3, 4, 5, 6, 7, 8]
-#define EXTRUDERS 1//jandual
+#define EXTRUDERS 3//jandual
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
 #define DEFAULT_NOMINAL_FILAMENT_DIA 1.75
@@ -393,9 +393,9 @@
 // Offset of the extruders (uncomment if using more than one and relying on firmware to position when changing).
 // The offset has to be X=0, Y=0 for the extruder 0 hotend (default extruder).
 // For the other hotends it is their distance from the extruder 0 hotend.
-//#define HOTEND_OFFSET_X { 0.0, 20.00 } // (mm) relative X-offset for each nozzle
-//#define HOTEND_OFFSET_Y { 0.0, 5.00 }  // (mm) relative Y-offset for each nozzle
-//#define HOTEND_OFFSET_Z { 0.0, 0.00 }  // (mm) relative Z-offset for each nozzle
+#define HOTEND_OFFSET_X { 0.0, 0.00, 0.00 } // (mm) relative X-offset for each nozzle second and third extruder share hotend
+#define HOTEND_OFFSET_Y { 0.0, 2.00, 2.00 }  // (mm) relative Y-offset for each nozzle
+#define HOTEND_OFFSET_Z { 0.0, -0.1, -0.1 }  // (mm) relative Z-offset for each nozzle
 
 // @section psu control
 
@@ -541,8 +541,8 @@
  *
  */
 #define TEMP_SENSOR_0 1
-#define TEMP_SENSOR_1 0//jandual
-#define TEMP_SENSOR_2 0
+#define TEMP_SENSOR_1 1//extruder 2 and 3 are the same hotend
+#define TEMP_SENSOR_2 1
 #define TEMP_SENSOR_3 0
 #define TEMP_SENSOR_4 0
 #define TEMP_SENSOR_5 0
@@ -657,15 +657,15 @@
 
 #if ENABLED(PIDTEMP)
   //#define PID_DEBUG             // Print PID debug data to the serial port. Use 'M303 D' to toggle activation.
-  //#define PID_PARAMS_PER_HOTEND // Use separate PID parameters for each extruder (useful for mismatched extruders)
+  #define PID_PARAMS_PER_HOTEND // Use separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with G-code: M301 E[extruder number, 0-2]
 
   #if ENABLED(PID_PARAMS_PER_HOTEND)
     // Specify up to one value per hotend here, according to your setup.
     // If there are fewer values, the last one applies to the remaining hotends.
-    #define DEFAULT_Kp_LIST {  22.20,  22.20 }
-    #define DEFAULT_Ki_LIST {   1.08,   1.08 }
-    #define DEFAULT_Kd_LIST { 114.00, 114.00 }
+    #define DEFAULT_Kp_LIST {  18.14,  28.72 }//for extruder 2 and 3
+    #define DEFAULT_Ki_LIST {   1.68,   2.62 }
+    #define DEFAULT_Kd_LIST { 48.98, 78.81 }
   #else
     #define DEFAULT_Kp  18.14//28.72//jan
     #define DEFAULT_Ki   1.68//2.62//jan
@@ -752,7 +752,7 @@
 
   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
   // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 462.10//jan
+  #define DEFAULT_bedKp 462.10//jan retest with isolation
   #define DEFAULT_bedKi  85.47//jan
   #define DEFAULT_bedKd 624.59//jan
 
@@ -1037,13 +1037,13 @@
 #define USE_XMIN_PLUG
 #define USE_YMIN_PLUG
 //#define USE_ZMIN_PLUG
-//#define USE_IMIN_PLUG//jandual
+//#define USE_IMIN_PLUG
 //#define USE_JMIN_PLUG
 //#define USE_KMIN_PLUG
 //#define USE_UMIN_PLUG
 //#define USE_VMIN_PLUG
 //#define USE_WMIN_PLUG
-//#define USE_XMAX_PLUG
+#define USE_XMAX_PLUG//jandual
 //#define USE_YMAX_PLUG
 //#define USE_ZMAX_PLUG
 //#define USE_IMAX_PLUG
@@ -1163,21 +1163,21 @@
  * following movement settings. If fewer factors are given than the
  * total number of extruders, the last value applies to the rest.
  */
-//#define DISTINCT_E_FACTORS//jandual
+#define DISTINCT_E_FACTORS//jandual
 
 /**
  * Default Axis Steps Per Unit (linear=steps/mm, rotational=steps/°)
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 424.9 }//jan//jandual
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 424.9, 93, 93 }//jan//jandual
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 25, 60 }//jan//jandual
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 25, 60, 60, 60 }//jan//jandual
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1190,7 +1190,7 @@
  * Override with M201
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 500,5000 }//jan increase
+#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 500,5000,5000,5000 }//jan increase
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -1485,7 +1485,7 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { -32.5, -41.2, -1.89 }//janrefine
+#define NOZZLE_TO_PROBE_OFFSET { -32.5, -41.2, -1.77 }//janrefine
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1703,7 +1703,7 @@
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
-#define X_MAX_POS 230
+#define X_MAX_POS 450
 #define Y_MAX_POS 230
 #define Z_MAX_POS 230//jan
 //#define I_MIN_POS 0
@@ -1718,7 +1718,7 @@
 //#define V_MAX_POS 50
 //#define W_MIN_POS 0
 //#define W_MAX_POS 50
-
+#define X_BED_START_POS 77.5 //respect parking spot for E0
 /**
  * Software Endstops
  *
@@ -1893,7 +1893,7 @@
 #define PREHEAT_BEFORE_LEVELING//jan
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
   #define LEVELING_NOZZLE_TEMP 0   // (°C) Only applies to E0 at this time
-  #define LEVELING_BED_TEMP     50
+  #define LEVELING_BED_TEMP     60
 #endif
 
 /**
@@ -1987,7 +1987,7 @@
   #define GRID_MAX_POINTS_X 10      // Don't use more than 15 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
-  //#define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
+  #define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
 
   #define UBL_MESH_EDIT_MOVES_Z     // Sophisticated users prefer no movement of nozzle
   #define UBL_SAVE_ACTIVE_ON_M500   // Save the currently active mesh in the current slot on M500
@@ -2015,7 +2015,7 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-//#define LCD_BED_LEVELING
+//#define LCD_BED_LEVELING//try
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.025 // (mm) Step size while manually probing Z axis.
@@ -2244,8 +2244,8 @@
   #define NOZZLE_PARK_POINT { (X_MAX_POS - 10), (Y_MIN_POS + 10), 20 }//jan
   #define NOZZLE_PARK_MOVE          0   // Park motion: 0 = XY Move, 1 = X Only, 2 = Y Only, 3 = X before Y, 4 = Y before X
   #define NOZZLE_PARK_Z_RAISE_MIN   2   // (mm) Always raise Z by at least this distance
-  #define NOZZLE_PARK_XY_FEEDRATE 200   // (mm/s) X and Y axes feedrate (also used for delta Z axis)//jan
-  #define NOZZLE_PARK_Z_FEEDRATE    5   // (mm/s) Z axis feedrate (not used for delta printers)
+  #define NOZZLE_PARK_XY_FEEDRATE 300   // (mm/s) X and Y axes feedrate (also used for delta Z axis)//jan
+  #define NOZZLE_PARK_Z_FEEDRATE    25   // (mm/s) Z axis feedrate (not used for delta printers)
 #endif
 
 /**

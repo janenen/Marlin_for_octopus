@@ -633,8 +633,8 @@
  * the fan will turn on when any selected extruder is above the threshold.
  */
 #define E0_AUTO_FAN_PIN FAN2_PIN
-#define E1_AUTO_FAN_PIN -1
-#define E2_AUTO_FAN_PIN -1
+#define E1_AUTO_FAN_PIN FAN3_PIN
+#define E2_AUTO_FAN_PIN FAN3_PIN//same hotend
 #define E3_AUTO_FAN_PIN -1
 #define E4_AUTO_FAN_PIN -1
 #define E5_AUTO_FAN_PIN -1
@@ -763,12 +763,12 @@
  *       Set the initial X offset and temperature differential with M605 S2 X[offs] R[deg] and
  *       follow with M605 S3 to initiate mirrored movement.
  */
-//#define DUAL_X_CARRIAGE//jandual
+#define DUAL_X_CARRIAGE//jandual
 #if ENABLED(DUAL_X_CARRIAGE)
   #define X1_MIN_POS X_MIN_POS    // Set to X_MIN_POS
-  #define X1_MAX_POS X_BED_SIZE   // A max coordinate so the X1 carriage can't hit the parked X2 carriage
-  #define X2_MIN_POS    80        // A min coordinate so the X2 carriage can't hit the parked X1 carriage
-  #define X2_MAX_POS   353        // The max position of the X2 carriage, typically also the home position
+  #define X1_MAX_POS X_BED_START_POS+X_BED_SIZE   // A max coordinate so the X1 carriage can't hit the parked X2 carriage
+  #define X2_MIN_POS    X_BED_START_POS        // A min coordinate so the X2 carriage can't hit the parked X1 carriage
+  #define X2_MAX_POS   X_MAX_POS        // The max position of the X2 carriage, typically also the home position
   #define X2_HOME_DIR    1        // Set to 1. The X2 carriage always homes to the max endstop position
   #define X2_HOME_POS X2_MAX_POS  // Default X2 home position. Set to X2_MAX_POS.
                                   // NOTE: For Dual X Carriage use M218 T1 Xn to override the X2_HOME_POS.
@@ -779,7 +779,7 @@
   #define DEFAULT_DUAL_X_CARRIAGE_MODE DXC_AUTO_PARK_MODE
 
   // Default x offset in duplication mode (typically set to half print bed width)
-  #define DEFAULT_DUPLICATION_X_OFFSET 100
+  #define DEFAULT_DUPLICATION_X_OFFSET X_BED_SIZE/2 //like comment above
 
   // Default action to execute following M605 mode change commands. Typically G28X to apply new mode.
   //#define EVENT_GCODE_IDEX_AFTER_MODECHANGE "G28X"
@@ -829,7 +829,7 @@
 #ifdef Z2_DRIVER_TYPE
   //#define INVERT_Z2_VS_Z_DIR        // Z2 direction signal is the opposite of Z
 
-  //#define Z_MULTI_ENDSTOPS          // Other Z axes have their own endstops//jandual
+  //#define Z_MULTI_ENDSTOPS          // Other Z axes have their own endstops//jandual faster than G34, (how to combine dual endstops and probe to bed)
   #if ENABLED(Z_MULTI_ENDSTOPS)
     #define Z2_USE_ENDSTOP   _XMAX_   // Z2 endstop board plug. Don't forget to enable USE_*_PLUG.
     #define Z2_ENDSTOP_ADJUSTMENT 0   // Z2 offset relative to Y endstop
@@ -2067,7 +2067,7 @@
   //#define EXTRA_LIN_ADVANCE_K // Add a second linear advance constant, configurable with M900.
   #define LIN_ADVANCE_K 0.0    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // Print debug information to serial during operation. Disable for production use.
-  //#define EXPERIMENTAL_SCURVE // Allow S-Curve Acceleration to be used with LA.
+  //#define EXPERIMENTAL_SCURVE // Allow S-Curve Acceleration to be used with LA.//jan
   #define ALLOW_LOW_EJERK     // Allow a DEFAULT_EJERK value of <10. Recommended for direct drive hotends.
   //#define EXPERIMENTAL_I2S_LA // Allow I2S_STEPPER_STREAM to be used with LA. Performance degrades as the LA step rate reaches ~20kHz.
 #endif
@@ -2516,7 +2516,7 @@
    * Retract and prime filament on tool-change to reduce
    * ooze and stringing and to get cleaner transitions.
    */
-  //#define TOOLCHANGE_FILAMENT_SWAP
+  #define TOOLCHANGE_FILAMENT_SWAP
   #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
     // Load / Unload
     #define TOOLCHANGE_FS_LENGTH              12  // (mm) Load / Unload length
@@ -2525,7 +2525,7 @@
     #define TOOLCHANGE_FS_UNRETRACT_SPEED (25*60) // (mm/min) (On SINGLENOZZLE or Bowden loading must be slowed down)
 
     // Longer prime to clean out a SINGLENOZZLE
-    #define TOOLCHANGE_FS_EXTRA_PRIME          0  // (mm) Extra priming length
+    #define TOOLCHANGE_FS_EXTRA_PRIME          1  // (mm) Extra priming length
     #define TOOLCHANGE_FS_PRIME_SPEED    (4.6*60) // (mm/min) Extra priming feedrate
     #define TOOLCHANGE_FS_WIPE_RETRACT         0  // (mm) Cutting retraction out of park, for less stringing, better wipe, etc. Adjust with LCD or M217 G.
 
