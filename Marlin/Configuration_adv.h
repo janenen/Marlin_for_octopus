@@ -1108,7 +1108,7 @@
  * Set DISABLE_INACTIVE_? 'true' to shut down axis steppers after an idle period.
  * The Deactive Time can be overridden with M18 and M84. Set to 0 for No Timeout.
  */
-#define DEFAULT_STEPPER_DEACTIVE_TIME 120
+#define DEFAULT_STEPPER_DEACTIVE_TIME 60*10
 #define DISABLE_INACTIVE_X true
 #define DISABLE_INACTIVE_Y true
 #define DISABLE_INACTIVE_Z true  // Set 'false' if the nozzle could fall onto your printed part!
@@ -2465,7 +2465,7 @@
 #define SERIAL_OVERRUN_PROTECTION
 
 // For serial echo, the number of digits after the decimal point
-//#define SERIAL_FLOAT_PRECISION 4
+#define SERIAL_FLOAT_PRECISION 4
 
 /**
  * Set the number of proportional font spaces required to fill up a typical character space.
@@ -3229,8 +3229,8 @@
   #define X2_HYBRID_THRESHOLD    300
   #define Y_HYBRID_THRESHOLD     300
   #define Y2_HYBRID_THRESHOLD    300
-  #define Z_HYBRID_THRESHOLD       25
-  #define Z2_HYBRID_THRESHOLD      25
+  #define Z_HYBRID_THRESHOLD       50
+  #define Z2_HYBRID_THRESHOLD      50
   #define Z3_HYBRID_THRESHOLD      3
   #define Z4_HYBRID_THRESHOLD      3
   #define I_HYBRID_THRESHOLD       3  // [linear=mm/s, rotational=°/s]
