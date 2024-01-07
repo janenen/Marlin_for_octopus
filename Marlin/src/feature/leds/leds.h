@@ -30,7 +30,7 @@
 #include <string.h>
 
 // A white component can be passed
-#if EITHER(RGBW_LED, PCA9632_RGBW)
+#if ANY(RGBW_LED, PCA9632_RGBW)
   #define HAS_WHITE_LED 1
 #endif
 
@@ -38,6 +38,18 @@
   #define _NEOPIXEL_INCLUDE_
   #include "neopixel.h"
   #undef _NEOPIXEL_INCLUDE_
+#endif
+
+#if ENABLED(BLINKM)
+  #include "blinkm.h"
+#endif
+
+#if ENABLED(PCA9533)
+  #include "pca9533.h"
+#endif
+
+#if ENABLED(PCA9632)
+  #include "pca9632.h"
 #endif
 
 /**
@@ -152,7 +164,7 @@ public:
   #if ENABLED(LED_CONTROL_MENU)
     static void toggle();  // swap "off" with color
   #endif
-  #if EITHER(LED_CONTROL_MENU, CASE_LIGHT_USE_RGB_LED) || LED_POWEROFF_TIMEOUT > 0
+  #if ANY(LED_CONTROL_MENU, CASE_LIGHT_USE_RGB_LED) || LED_POWEROFF_TIMEOUT > 0
     static void update() { set_color(color); }
   #endif
 
