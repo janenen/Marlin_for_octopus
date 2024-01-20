@@ -784,6 +784,7 @@
 #elif ENABLED(CR10_STOCKDISPLAY)
 
   #define IS_RRD_FG_SC 1
+  #define NO_LCD_SDCARD
   #define LCD_ST7920_DELAY_1           125
   #define LCD_ST7920_DELAY_2           125
   #define LCD_ST7920_DELAY_3           125
@@ -971,6 +972,7 @@
   #define DETECT_I2C_LCD_DEVICE 1
 #endif
 
+// Encoder behavior
 #ifndef STD_ENCODER_PULSES_PER_STEP
   #if ENABLED(TOUCH_SCREEN)
     #define STD_ENCODER_PULSES_PER_STEP 2
@@ -1684,6 +1686,7 @@
   #define TFT_DEFAULT_ORIENTATION TFT_EXCHANGE_XY
   #define TFT_RES_480x320
   #define TFT_INTERFACE_SPI
+  #define NO_LCD_SDCARD
 #elif ANY(LERDGE_TFT35, ANET_ET5_TFT35)                                       // ST7796
   #define TFT_DEFAULT_ORIENTATION TFT_EXCHANGE_XY
   #define TFT_RES_480x320
