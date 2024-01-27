@@ -121,6 +121,13 @@
 #endif
 
 //
+// Probe enable
+//
+#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
+  #define PROBE_ENABLE_PIN            SERVO0_PIN
+#endif
+
+//
 // Filament Runout Sensor
 //
 #define FIL_RUNOUT_PIN                      PG12  // E0DET
@@ -405,36 +412,10 @@
 #endif // BTT_MOTOR_EXPANSION
 
 //
-// LCDs and Controllers
-#if HAS_DWIN_E3V2 || IS_DWIN_MARLINUI
-  /**
-   * ----------------------------------------------------------------|----------------------------------------------------------------
-   * ----------------------- BTT OCTOPUS V1.x -----------------------|----------------------------- DWIN -----------------------------
-   *              ------                    ------            |  Connection |           ------                ------
-   * (BEEP, PE8) | 1  2 | (PE7,A)     (5V) | 1  2 |           |  TX2 | DIN  |          |10  9 |              |10  9 |
-   *   (ENT,PE9) | 3  4 | (PE10,B)   (GND) | 3  4 |           |  RX2 | DOUT |    (DIN) | 8  7 | (DOUT)   DIN | 8  7 | DOUT
-   *               5  6 |                  | 5  6 |           |    A | A    |    (ENT) | 6  5 | (BEEP)   ENT | 6  5 | BEEP
-   *             | 7  8 |                  | 7  8 |           |    B | B    |      (B) | 4  3 | (A)        B | 4  3 | A
-   *             | 9 10 |       (RX2, PD6) | 9 10 | (PD5,TX2) | BEEP | BEEP |      GND | 2  1 | VCC      GND | 2  1 | VCC
-   *              ------                    ------            |  ENT | ENT  |           ------                ------
-   *               EXP1                      RasPi            |  5V  | VCC  |            DWIN               DWIN (plug)
-   * ---------------------------------------------------------------------------------------------------------------------------------
-   * Copy the following lines to Configuration.h:
-   * #define LCD_SERIAL_PORT 2 //use Serial 2 on Raspberry Pi connector
-   * //define LCD_SERIAL_PORT 3 //use Serial 3 on TFT connector
-   * #define NO_CONTROLLER_CUSTOM_WIRING_WARNING
-   */
+// LCD / Controller
+//
 
-  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
-    #error "CAUTION! DWIN_CREALITY_LCD requires a custom cable, see diagram above this line. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
-  #endif
-
-  #define BEEPER_PIN                 PE8
-  #define BTN_EN1                    PE7
-  #define BTN_EN2                    PE10
-  #define BTN_ENC                    PE9
-
-#elif IS_TFTGLCD_PANEL
+#if IS_TFTGLCD_PANEL
 
   #if ENABLED(TFTGLCD_PANEL_SPI)
     #define TFTGLCD_CS               EXP2_03_PIN
@@ -521,6 +502,7 @@
     #endif
 
   #endif
+
 #endif // HAS_WIRED_LCD
 
 // Alter timing for graphical display
@@ -551,8 +533,8 @@
 //
 // NeoPixel LED
 //
-#ifndef NEOPIXEL_PIN
-  #define NEOPIXEL_PIN                      PB0
+#ifndef BOARD_NEOPIXEL_PIN
+  #define BOARD_NEOPIXEL_PIN                PB0
 #endif
 
 #if ENABLED(WIFISUPPORT)
