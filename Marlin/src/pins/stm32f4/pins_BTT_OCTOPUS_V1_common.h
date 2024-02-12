@@ -130,10 +130,14 @@
 //
 // Filament Runout Sensor
 //
-#define FIL_RUNOUT_PIN                      PG12  // E0DET
-#define FIL_RUNOUT2_PIN                     PG13  // E1DET
-#define FIL_RUNOUT3_PIN                     PG14  // E2DET
-#define FIL_RUNOUT4_PIN                     PG15  // E3DET
+//#define FIL_RUNOUT_PIN                      PG12  // E0DET
+//#define FIL_RUNOUT2_PIN                     PG13  // E1DET
+//#define FIL_RUNOUT3_PIN                     PG14  // E2DET
+//#define FIL_RUNOUT4_PIN                     PG15  // E3DET
+#define FIL_RUNOUT_PIN                      PG11  // E0DET
+#define FIL_RUNOUT2_PIN                     PG15  // E1DET
+#define FIL_RUNOUT3_PIN                     PG13  // E2DET
+#define FIL_RUNOUT4_PIN                     PG14  // E3DET
 
 //
 // Power Supply Control
